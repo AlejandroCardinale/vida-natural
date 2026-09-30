@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, delay } from 'rxjs/operators';
+import { catchError, delay, map } from 'rxjs/operators';
 import { Product } from '../models/product.model';
 import { environment } from '../../environments/environment';
 
@@ -206,12 +206,13 @@ export class ProductService {
 
   // ── deleteProduct() ───────────────────────────────────────────────────────
   // DELETE /productos/:id → elimina un producto
+  // map(() => true) convierte la respuesta vacía del servidor en un boolean
   deleteProduct(id: number): Observable<boolean> {
     if (this.usandoApi) {
       return this.http.delete<void>(`${this.endpoint}/${id}`).pipe(
-        // DELETE no retorna body → mapeamos a true para indicar éxito
+        map(() => true),         // La respuesta DELETE es vacía; la convertimos a true
         catchError(this.manejarError)
-      ) as unknown as Observable<boolean>;
+      );
     }
     // Modo local
     const idx = this.productosLocales.findIndex(p => p.id === id);

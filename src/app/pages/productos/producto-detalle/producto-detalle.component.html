@@ -1,0 +1,118 @@
+<div class="page-container">
+  <div class="container">
+
+    <!-- Spinner -->
+    <div *ngIf="cargando" class="loading-container">
+      <div class="spinner-border" style="color: var(--vn-verde);" role="status"></div>
+      <span>Cargando producto...</span>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error && !cargando" class="alert alert-danger alert-vn">
+      <i class="bi bi-exclamation-circle me-2"></i>{{ error }}
+      <button class="btn btn-sm btn-vn-outline ms-3" (click)="volver()">Volver al listado</button>
+    </div>
+
+    <!-- Contenido del producto -->
+    <div *ngIf="producto && !cargando">
+
+      <!-- Botón Volver -->
+      <button class="btn btn-sm btn-vn-outline mb-4" (click)="volver()">
+        <i class="bi bi-arrow-left me-1"></i> Volver al listado
+      </button>
+
+      <div class="row g-4">
+
+        <!-- Imagen -->
+        <div class="col-md-4">
+          <div class="card-vn overflow-hidden">
+            <img
+              *ngIf="producto.imagenUrl"
+              [src]="producto.imagenUrl"
+              [alt]="producto.nombre"
+              class="w-100"
+              style="height: 280px; object-fit: cover;">
+            <div
+              *ngIf="!producto.imagenUrl"
+              class="d-flex align-items-center justify-content-center"
+              style="height: 280px; background: var(--vn-verde-suave); color: var(--vn-borde); font-size: 4rem;">
+              <i class="bi bi-image"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Información del producto -->
+        <div class="col-md-8">
+          <div class="card-vn p-4 h-100">
+
+            <!-- Encabezado: nombre, categoría, estado -->
+            <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-3">
+              <div>
+                <h1 class="section-title mb-1">{{ producto.nombre }}</h1>
+                <span class="badge-categoria">{{ producto.categoria }}</span>
+              </div>
+              <span [class]="producto.disponible ? 'badge-disponible' : 'badge-no-disponible'">
+                {{ producto.disponible ? 'Disponible' : 'No disponible' }}
+              </span>
+            </div>
+
+            <!-- Datos principales -->
+            <div class="row g-3 mb-3">
+              <div class="col-6">
+                <div class="detalle-dato">
+                  <span class="detalle-label">Marca</span>
+                  <span class="detalle-valor">{{ producto.marca }}</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="detalle-dato">
+                  <span class="detalle-label">Stock</span>
+                  <span
+                    class="detalle-valor"
+                    [class.text-danger]="producto.stock === 0">
+                    {{ producto.stock }} unidades
+                  </span>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="detalle-dato">
+                  <span class="detalle-label">Precio</span>
+                  <span class="detalle-precio">
+                    {{ producto.precio | currency:'ARS':'symbol':'1.0-0':'es-AR' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Descripción -->
+            <div *ngIf="producto.descripcion" class="mb-4">
+              <p class="detalle-label mb-1">Descripción</p>
+              <p class="text-muted mb-0" style="line-height: 1.6;">{{ producto.descripcion }}</p>
+            </div>
+
+            <!-- Acciones -->
+            <div class="d-flex gap-2 flex-wrap mt-auto pt-3 border-top">
+              <!-- Editar: solo admin -->
+              <button
+                *ngIf="esAdmin"
+                class="btn btn-vn-primary"
+                (click)="editar()">
+                <i class="bi bi-pencil me-1"></i> Editar
+              </button>
+              <!-- Eliminar: solo admin -->
+              <button
+                *ngIf="esAdmin"
+                class="btn btn-outline-danger"
+                (click)="eliminar()">
+                <i class="bi bi-trash me-1"></i> Eliminar
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

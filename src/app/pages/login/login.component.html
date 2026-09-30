@@ -93,34 +93,21 @@
 
     </form>
 
-    <!-- Separador -->
-    <hr class="my-4">
-
-    <!-- Usuarios de prueba (útil para la demo del proyecto) -->
-    <div class="login-demo-box">
-      <p class="small fw-medium mb-2" style="color: var(--vn-verde);">
-        <i class="bi bi-info-circle me-1"></i> Usuarios de prueba:
-      </p>
-      <div class="row g-2">
-        <div class="col-6">
-          <div class="login-demo-user" (click)="formulario.patchValue({email:'admin@vidanatural.com', password:'admin123'})">
-            <i class="bi bi-shield-check text-success"></i>
-            <div class="small">
-              <div class="fw-medium">Admin</div>
-              <div class="text-muted" style="font-size:0.75rem;">admin&#64;vidanatural.com</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="login-demo-user" (click)="formulario.patchValue({email:'usuario@vidanatural.com', password:'usuario123'})">
-            <i class="bi bi-person-check" style="color: var(--vn-verde);"></i>
-            <div class="small">
-              <div class="fw-medium">Usuario</div>
-              <div class="text-muted" style="font-size:0.75rem;">usuario&#64;vidanatural.com</div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- Acceso rápido — discreto, pequeño, al pie -->
+    <div class="demo-acceso mt-3">
+      <span class="demo-acceso-label">Acceso rápido:</span>
+      <button
+        type="button"
+        class="demo-btn"
+        (click)="formulario.patchValue({email:'admin@vidanatural.com', password:'admin123'})">
+        <i class="bi bi-shield-check"></i> Admin
+      </button>
+      <button
+        type="button"
+        class="demo-btn"
+        (click)="formulario.patchValue({email:'usuario@vidanatural.com', password:'usuario123'})">
+        <i class="bi bi-person"></i> Usuario
+      </button>
     </div>
 
   </div>

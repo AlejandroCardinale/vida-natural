@@ -6,36 +6,40 @@
   margin-bottom: 1.25rem;
 }
 
-/* Caja de usuarios de prueba */
-.login-demo-box {
-  background-color: var(--vn-verde-suave);
-  border: 1px solid var(--vn-borde);
-  border-radius: 10px;
-  padding: 0.85rem 1rem;
-}
-
-/* Tarjeta clickeable de usuario de prueba */
-.login-demo-user {
+/* Acceso rápido — fila pequeña y discreta */
+.demo-acceso {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  background-color: var(--vn-blanco);
+  flex-wrap: wrap;
+}
+
+.demo-acceso-label {
+  font-size: 0.72rem;
+  color: var(--vn-texto-suave);
+  font-weight: 500;
+}
+
+.demo-btn {
+  font-size: 0.72rem;
+  color: var(--vn-texto-suave);
+  background: transparent;
   border: 1px solid var(--vn-borde);
-  border-radius: 8px;
-  padding: 0.5rem 0.65rem;
+  border-radius: 20px;
+  padding: 0.2rem 0.65rem;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  font-size: 0.85rem;
+  transition: border-color 0.2s, color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
-.login-demo-user:hover {
-  border-color: var(--vn-verde-claro);
-  box-shadow: 0 2px 6px var(--vn-sombra);
+.demo-btn:hover {
+  border-color: var(--vn-verde);
+  color: var(--vn-verde);
 }
 
-.login-demo-user i {
-  font-size: 1.3rem;
-}
 
 /* Ajuste del input-group para que los bordes no se dupliquen */
 .input-group .form-control.is-invalid ~ .input-group-text {

@@ -18,6 +18,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent }           from './pages/login/login.component';
 import { DashboardComponent }       from './pages/dashboard/dashboard.component';
 import { BuscarAlimentosComponent } from './pages/buscar-alimentos/buscar-alimentos.component';
+import { MisComprasComponent }      from './pages/mis-compras/mis-compras.component';
 
 // AppModule es el módulo raíz que arranca la aplicación.
 // Registra todos los componentes, módulos e importaciones necesarias.
@@ -26,7 +27,8 @@ import { BuscarAlimentosComponent } from './pages/buscar-alimentos/buscar-alimen
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    BuscarAlimentosComponent
+    BuscarAlimentosComponent,
+    MisComprasComponent
   ],
   imports: [
     BrowserModule,

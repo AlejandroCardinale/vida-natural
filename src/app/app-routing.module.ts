@@ -6,6 +6,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { LoginComponent }          from './pages/login/login.component';
 import { DashboardComponent }      from './pages/dashboard/dashboard.component';
 import { BuscarAlimentosComponent} from './pages/buscar-alimentos/buscar-alimentos.component';
+import { MisComprasComponent }     from './pages/mis-compras/mis-compras.component';
 
 const routes: Routes = [
   // Ruta raíz: redirige al login
@@ -36,6 +37,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/productos/productos.module')
         .then(m => m.ProductosModule)
+  },
+
+  // Mis compras: accesible para todos los usuarios autenticados
+  {
+    path: 'mis-compras',
+    component: MisComprasComponent,
+    canActivate: [AuthGuard]
   },
 
   // Ruta comodín: redirige al login si la URL no existe

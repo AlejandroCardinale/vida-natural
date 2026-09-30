@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, delay, map } from 'rxjs/operators';
+import { catchError, delay, map, switchMap } from 'rxjs/operators';
 import { Product } from '../models/product.model';
 import { environment } from '../../environments/environment';
 
@@ -227,12 +227,69 @@ export class ProductService {
   }
 
   // ── getCategorias() ───────────────────────────────────────────────────────
-  // Retorna las categorías únicas del catálogo local.
-  // Con MockAPI esto podría ser un endpoint separado.
   getCategorias(): string[] {
-    // En modo API las categorías son las que ya se cargan con getProducts()
     const categorias = this.productosLocales.map(p => p.categoria);
     return [...new Set(categorias)].sort();
+  }
+
+  // ── comprarProducto() ────────────────────────────────────────────────────
+  // Reduce el stock del producto en la cantidad indicada.
+  // Pasos:
+  //   1. Obtiene el producto actual (GET)
+  //   2. Valida que haya stock suficiente
+  //   3. Calcula el nuevo stock
+  //   4. Si nuevoStock === 0 → disponible = false
+  //   5. Actualiza el producto en MockAPI (PUT)
+  comprarProducto(id: number, cantidad: number): Observable<Product> {
+    return this.getProductById(id).pipe(
+      switchMap(producto => {
+        if (!producto) {
+          return throwError(() => new Error('Producto no encontrado.'));
+        }
+        if (!producto.disponible || producto.stock === 0) {
+          return throwError(() => new Error('El producto no está disponible.'));
+        }
+        if (cantidad > producto.stock) {
+          return throwError(() => new Error(`Stock insuficiente. Solo quedan ${producto.stock} unidades.`));
+        }
+
+        const nuevoStock = producto.stock - cantidad;
+        const cambios: Partial<Product> = {
+          stock:      nuevoStock,
+          disponible: nuevoStock > 0  // false automáticamente si agota el stock
+        };
+
+        return this.updateProduct(id, cambios);
+      })
+    );
+  }
+
+  // ── agregarStock() ────────────────────────────────────────────────────────
+  // Aumenta el stock del producto en la cantidad indicada (solo admin).
+  // Pasos:
+  //   1. Obtiene el producto actual (GET)
+  //   2. Calcula: nuevoStock = stockActual + cantidad
+  //   3. Si nuevoStock > 0 → disponible = true (reactiva el producto)
+  //   4. Actualiza el producto en MockAPI (PUT)
+  agregarStock(id: number, cantidad: number): Observable<Product> {
+    return this.getProductById(id).pipe(
+      switchMap(producto => {
+        if (!producto) {
+          return throwError(() => new Error('Producto no encontrado.'));
+        }
+        if (cantidad <= 0) {
+          return throwError(() => new Error('La cantidad debe ser mayor a 0.'));
+        }
+
+        const nuevoStock = producto.stock + cantidad;
+        const cambios: Partial<Product> = {
+          stock:      nuevoStock,
+          disponible: true  // Al agregar stock, el producto vuelve a estar disponible
+        };
+
+        return this.updateProduct(id, cambios);
+      })
+    );
   }
 
   // ── Manejo de errores HTTP ────────────────────────────────────────────────

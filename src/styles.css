@@ -402,3 +402,65 @@ body {
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: var(--vn-verde-suave) !important;
 }
+
+/* =============================================
+   DETALLE DE PRODUCTO
+   ============================================= */
+
+.detalle-dato {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.detalle-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--vn-texto-suave);
+  font-weight: 600;
+}
+
+.detalle-valor {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--vn-texto);
+}
+
+.detalle-precio {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--vn-verde);
+}
+
+.badge-categoria {
+  display: inline-block;
+  font-size: 0.75rem;
+  background: var(--vn-verde-suave);
+  color: var(--vn-verde);
+  border-radius: 20px;
+  padding: 0.2rem 0.7rem;
+  font-weight: 600;
+}
+
+.badge-disponible {
+  display: inline-block;
+  font-size: 0.75rem;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 20px;
+  padding: 0.25rem 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-no-disponible {
+  display: inline-block;
+  font-size: 0.75rem;
+  background: #fbe9e7;
+  color: #bf360c;
+  border-radius: 20px;
+  padding: 0.25rem 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}

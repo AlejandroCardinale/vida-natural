@@ -21,10 +21,11 @@ export class DashboardComponent implements OnInit {
   // Estado de carga (*ngIf en el template)
   cargando = true;
 
-  // ── Estadísticas (calculadas en el componente, mostradas con Interpolación) ──
+  // ── Estadísticas ──────────────────────────────────────────────────────────────
   totalProductos       = 0;   // Tarjeta 1: total de productos
   productosDisponibles = 0;   // Tarjeta 2: disponibles con stock > 0
   productosSinStock    = 0;   // Tarjeta 3: productos sin stock (stock === 0)
+  productosStockBajo   = 0;   // Tarjeta 4: stock > 0 y stock <= 10 (stock bajo)
 
   constructor(
     private productService: ProductService,  // Inyección de dependencia del servicio
@@ -57,7 +58,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  // Calcula las tres estadísticas a partir de la lista de productos
   private calcularEstadisticas(productos: Product[]): void {
     this.totalProductos = productos.length;
 
@@ -69,6 +69,11 @@ export class DashboardComponent implements OnInit {
     // Sin stock: stock === 0
     this.productosSinStock = productos.filter(
       p => p.stock === 0
+    ).length;
+
+    // Stock bajo: tienen algo de stock pero es escaso (≤10 unidades)
+    this.productosStockBajo = productos.filter(
+      p => p.stock > 0 && p.stock <= 10
     ).length;
   }
 

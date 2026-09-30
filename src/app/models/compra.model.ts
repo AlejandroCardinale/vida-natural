@@ -2,6 +2,7 @@
 export interface Compra {
   id?:             string;  // MockAPI genera el id como string
   usuarioEmail:    string;  // Email del usuario que realizó la compra
+  usuarioNombre:   string;  // Nombre del usuario (tomado de AuthService, no lo escribe el usuario)
   productoId:      number;
   productoNombre:  string;
   cantidad:        number;

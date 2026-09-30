@@ -41,7 +41,15 @@
           </a>
         </li>
 
-        <li class="nav-item">
+        <!-- "Compras" solo visible para ADMIN -->
+        <li class="nav-item" *ngIf="esAdmin">
+          <a class="nav-link" routerLink="/admin/compras" routerLinkActive="active">
+            <i class="bi bi-receipt me-1"></i> Compras
+          </a>
+        </li>
+
+        <!-- "Mis compras" solo visible para USUARIO (no admin) -->
+        <li class="nav-item" *ngIf="!esAdmin && usuarioActual">
           <a class="nav-link" routerLink="/mis-compras" routerLinkActive="active">
             <i class="bi bi-bag-check me-1"></i> Mis compras
           </a>

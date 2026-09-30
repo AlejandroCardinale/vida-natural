@@ -101,7 +101,8 @@ export class ProductoDetalleComponent implements OnInit {
 
         // Paso 2: registra la compra en MockAPI /compras
         this.compraService.registrarCompra({
-          usuarioEmail:   usuario?.email || '',
+          usuarioEmail:   usuario?.email   || '',
+          usuarioNombre:  usuario?.nombre  || '',  // Tomado de AuthService, no lo escribe el usuario
           productoId:     productoActualizado.id,
           productoNombre: productoActualizado.nombre,
           cantidad:       this.cantidadCompra,

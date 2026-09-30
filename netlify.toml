@@ -1,0 +1,13 @@
+# netlify.toml — Configuración de despliegue para Netlify
+# Netlify lee este archivo automáticamente al conectar el repositorio.
+
+[build]
+  # Comando que Netlify ejecuta para construir la aplicación
+  command = "npm run build"
+
+  # Carpeta que Netlify publica (resultado del build de Angular)
+  publish = "dist/vida-natural/browser"
+
+[build.environment]
+  # Versión de Node recomendada para Angular 17
+  NODE_VERSION = "20"

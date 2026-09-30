@@ -1,22 +1,9 @@
 # netlify.toml — Configuración de despliegue para Netlify
-# Este archivo debe estar en la raíz del repositorio.
 
 [build]
-  # Comando de build con configuración de producción explícita
   command = "npm run build"
-
-  # Carpeta que Netlify publica (Angular 17 genera browser/ dentro del dist)
   publish = "dist/vida-natural/browser"
 
 [build.environment]
-  # Node 20 es compatible con Angular 17
   NODE_VERSION = "20"
-  # Evita prompts interactivos durante el build
   CI = "true"
-
-# Desactivar el plugin de Angular SSR que Netlify instala automáticamente.
-# Nuestro proyecto es SPA (Client-Side Rendering), no usa SSR.
-[[plugins]]
-  package = "@netlify/angular-runtime"
-  [plugins.inputs]
-    ssr = false

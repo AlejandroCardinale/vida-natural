@@ -100,6 +100,7 @@ export class ProductoDetalleComponent implements OnInit {
     // Abrimos el diálogo de confirmación con el resumen de la compra
     const dialogRef = this.dialog.open(ConfirmarCompraComponent, {
       width: '420px',
+      maxWidth: '95vw',   // En mobile no desborda la pantalla
       data: {
         nombreProducto: this.producto.nombre,
         cantidad:       this.cantidadCompra,

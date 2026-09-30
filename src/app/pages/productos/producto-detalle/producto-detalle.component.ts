@@ -7,6 +7,7 @@ import { CompraService } from '../../../services/compra.service';
 import { AuthService } from '../../../services/auth.service';
 import { Product } from '../../../models/product.model';
 import { ConfirmarEliminarComponent } from '../confirmar-eliminar/confirmar-eliminar.component';
+import { ConfirmarCompraComponent }   from '../confirmar-compra/confirmar-compra.component';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -74,14 +75,17 @@ export class ProductoDetalleComponent implements OnInit {
 
   // ── onComprar() ──────────────────────────────────────────────────────────
   // Flujo:
-  //   1. Valida la cantidad ingresada (mínimo 1, máximo = stock disponible)
-  //   2. Llama a productService.comprarProducto() → GET + validación + PUT
-  //   3. Llama a compraService.registrarCompra() → POST /compras
-  //   4. Actualiza la pantalla con el nuevo stock sin recargar
+  //   1. Valida la cantidad (mínimo 1, máximo = stock disponible)
+  //   2. Abre MatDialog con el resumen: producto, cantidad, precio, total
+  //   3. Si el usuario confirma:
+  //      a. productService.comprarProducto() → GET + validación + PUT en MockAPI
+  //      b. compraService.registrarCompra() → POST /compras en MockAPI
+  //      c. Actualiza la vista con el nuevo stock
+  //   4. Si cancela: no hace nada
   onComprar(): void {
     if (!this.producto) return;
 
-    // Validación del input antes de llamar al servicio
+    // Validación antes de abrir el diálogo
     if (this.cantidadCompra < 1) {
       this.errorCompra = 'La cantidad mínima es 1.';
       return;
@@ -91,49 +95,59 @@ export class ProductoDetalleComponent implements OnInit {
       return;
     }
 
-    this.comprando   = true;
     this.errorCompra = '';
 
-    // Paso 1: actualiza el stock en MockAPI
-    this.productService.comprarProducto(this.producto.id, this.cantidadCompra).subscribe({
-      next: (productoActualizado) => {
-        const usuario = this.authService.usuarioActualValor;
-
-        // Paso 2: registra la compra en MockAPI /compras
-        this.compraService.registrarCompra({
-          usuarioEmail:   usuario?.email   || '',
-          usuarioNombre:  usuario?.nombre  || '',  // Tomado de AuthService, no lo escribe el usuario
-          productoId:     productoActualizado.id,
-          productoNombre: productoActualizado.nombre,
-          cantidad:       this.cantidadCompra,
-          precioUnitario: productoActualizado.precio,
-          total:          productoActualizado.precio * this.cantidadCompra,
-          fecha:          new Date().toISOString()
-        }).subscribe({
-          next: () => {
-            // Paso 3: actualiza la vista con el producto actualizado
-            this.producto      = productoActualizado;
-            this.cantidadCompra = 1;
-            this.comprando      = false;
-
-            this.snackBar.open('¡Compra realizada correctamente!', 'Cerrar', {
-              duration: 3500
-            });
-          },
-          error: () => {
-            // El stock ya se actualizó, aunque falle el registro
-            this.producto  = productoActualizado;
-            this.comprando = false;
-            this.snackBar.open('Compra realizada, pero no se pudo registrar.', 'Cerrar', {
-              duration: 3500
-            });
-          }
-        });
-      },
-      error: (err: Error) => {
-        this.comprando   = false;
-        this.errorCompra = err.message;
+    // Abrimos el diálogo de confirmación con el resumen de la compra
+    const dialogRef = this.dialog.open(ConfirmarCompraComponent, {
+      width: '420px',
+      data: {
+        nombreProducto: this.producto.nombre,
+        cantidad:       this.cantidadCompra,
+        precioUnitario: this.producto.precio,
+        total:          this.producto.precio * this.cantidadCompra
       }
+    });
+
+    // afterClosed() emite true si confirmó, false si canceló
+    dialogRef.afterClosed().subscribe((confirmado: boolean) => {
+      if (!confirmado || !this.producto) return; // Usuario canceló
+
+      this.comprando = true;
+
+      // Paso 1: actualiza el stock en MockAPI
+      this.productService.comprarProducto(this.producto.id, this.cantidadCompra).subscribe({
+        next: (productoActualizado) => {
+          const usuario = this.authService.usuarioActualValor;
+
+          // Paso 2: registra la compra en MockAPI /compras
+          this.compraService.registrarCompra({
+            usuarioEmail:   usuario?.email   || '',
+            usuarioNombre:  usuario?.nombre  || '',
+            productoId:     productoActualizado.id,
+            productoNombre: productoActualizado.nombre,
+            cantidad:       this.cantidadCompra,
+            precioUnitario: productoActualizado.precio,
+            total:          productoActualizado.precio * this.cantidadCompra,
+            fecha:          new Date().toISOString()
+          }).subscribe({
+            next: () => {
+              this.producto       = productoActualizado;
+              this.cantidadCompra = 1;
+              this.comprando      = false;
+              this.snackBar.open('¡Compra realizada correctamente!', 'Cerrar', { duration: 3500 });
+            },
+            error: () => {
+              this.producto  = productoActualizado;
+              this.comprando = false;
+              this.snackBar.open('Compra realizada, pero no se pudo registrar.', 'Cerrar', { duration: 3500 });
+            }
+          });
+        },
+        error: (err: Error) => {
+          this.comprando   = false;
+          this.errorCompra = err.message;
+        }
+      });
     });
   }
 

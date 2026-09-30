@@ -20,8 +20,9 @@ import { ProductoDetalleComponent }   from './producto-detalle/producto-detalle.
 import { ProductoNuevoComponent }     from './producto-nuevo/producto-nuevo.component';
 import { ProductoEditarComponent }    from './producto-editar/producto-editar.component';
 
-// Componente del diálogo de confirmación de eliminación
+// Diálogos de confirmación (Angular Material Dialog)
 import { ConfirmarEliminarComponent } from './confirmar-eliminar/confirmar-eliminar.component';
+import { ConfirmarCompraComponent }   from './confirmar-compra/confirmar-compra.component';
 
 // ProductosModule se carga con Lazy Loading.
 // Angular solo descarga este bundle cuando el usuario navega a /productos.
@@ -31,7 +32,8 @@ import { ConfirmarEliminarComponent } from './confirmar-eliminar/confirmar-elimi
     ProductoDetalleComponent,
     ProductoNuevoComponent,
     ProductoEditarComponent,
-    ConfirmarEliminarComponent   // Diálogo de confirmación (Angular Material Dialog)
+    ConfirmarEliminarComponent,  // Diálogo confirmar eliminación
+    ConfirmarCompraComponent     // Diálogo confirmar compra
   ],
   imports: [
     CommonModule,

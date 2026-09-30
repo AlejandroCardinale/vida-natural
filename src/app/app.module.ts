@@ -1,9 +1,14 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+// Locale para pipes de moneda y fecha en español/Argentina
+import { registerLocaleData } from '@angular/common';
+import localeEsAr from '@angular/common/locales/es-AR';
+registerLocaleData(localeEsAr);
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -40,7 +45,8 @@ import { MisComprasComponent }      from './pages/mis-compras/mis-compras.compon
     MatProgressSpinnerModule // Angular Material: spinner en el botón de login
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    { provide: LOCALE_ID, useValue: 'es-AR' } // Activa el locale para CurrencyPipe y DatePipe
   ],
   bootstrap: [AppComponent]
 })

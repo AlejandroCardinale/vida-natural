@@ -1,27 +1,78 @@
-# VidaNatural
+# Vida Natural
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+Proyecto desarrollado para la materia Algoritmos III de la carrera Analista de Sistemas. Se trata de una aplicacion web que simula el funcionamiento de una tienda de productos naturales, donde los usuarios pueden explorar productos, buscar alimentos y gestionar sus compras.
 
-## Development server
+## Descripcion del proyecto
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+La aplicacion esta construida con Angular 17 y permite a los usuarios:
 
-## Code scaffolding
+- Iniciar sesion con autenticacion por roles (usuario comun y administrador)
+- Navegar por el catalogo de productos naturales
+- Buscar alimentos especificos
+- Ver el historial de sus compras
+- Administrar todas las compras del sistema (solo rol administrador)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Tecnologias utilizadas
 
-## Build
+- Angular 17
+- Angular Material (componentes de interfaz)
+- TypeScript
+- Angular CDK
+- RxJS
+- Karma y Jasmine (para pruebas unitarias)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Estructura del proyecto
 
-## Running unit tests
+```
+src/
+  app/
+    pages/
+      login/           - Pantalla de inicio de sesion
+      dashboard/       - Pagina principal tras el login
+      buscar-alimentos/ - Buscador de alimentos
+      productos/       - Catalogo de productos (con lazy loading)
+      mis-compras/     - Historial de compras del usuario
+      admin-compras/   - Panel de administracion de compras
+    guards/            - Proteccion de rutas por autenticacion y rol
+    models/            - Modelos de datos
+    services/          - Servicios de logica de negocio
+    shared/            - Componentes reutilizables
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Como ejecutar el proyecto
 
-## Running end-to-end tests
+Primero, instalar las dependencias:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+npm install
+```
 
-## Further help
+Luego, levantar el servidor de desarrollo:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```bash
+ng serve
+```
+
+Abrir el navegador en `http://localhost:4200/`.
+
+## Compilacion
+
+Para generar los archivos de produccion:
+
+```bash
+ng build
+```
+
+Los archivos se generan en la carpeta `dist/`.
+
+## Pruebas
+
+Para ejecutar las pruebas unitarias:
+
+```bash
+ng test
+```
+
+## Notas
+
+Este proyecto fue realizado como trabajo practico para la carrera de Analista de Sistemas. Cualquier consulta o sugerencia es bienvenida.

@@ -6,8 +6,7 @@
 export const environment = {
   production: false,
 
-  // URL base de la API. Actualmente vacío porque aún no está conectada MockAPI.
-  // Cuando esté lista, reemplazar con:
-  // apiUrl: 'https://6abc52b2b2118ed7abb9b115.mockapi.io/api/v1'
-  apiUrl: 'https://6abc52b2b2118ed7abb9b115.mockapi.io/api/v1'
+
+  apiUrl: 'https://6ade81c84e88f1bba4a529f1.mockapi.io/api/vidanatural'
 };
+
